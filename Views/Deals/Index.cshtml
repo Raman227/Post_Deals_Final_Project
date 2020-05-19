@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Post_Deals_Final_Project.Models.Deal>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@using Microsoft.AspNetCore.Identity
+<h1>Deals </h1>
+
+@if (User.IsInRole("company"))
+{
+<p>
+    <a class="btn btn-primary" asp-action="Create">+Add New Deal</a>
+</p>
+}
+
+@foreach (var item in Model)
+{
+
+
+    <div class="card text-center border-primary">
+        <div class="card-header">
+            Deal from @item.Company.CompanyName
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@item.Heading</h5>
+            <p class="card-text">@item.DealInfo</p>
+            @if (User.IsInRole("company") && User.Identity.Name.Equals(item.Company.Email))
+            {
+                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+                <a class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            }
+
+            <h6 class="card-title">Call @item.Company.ContactNumber for more  details</h6>
+        </div>
+        <div class="card-footer text-muted">
+            Posted on  @item.Date
+        </div>
+    </div>
+
+}
+
